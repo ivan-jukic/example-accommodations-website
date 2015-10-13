@@ -1,0 +1,1 @@
+mongod.exe --dbpath E:/web_projects/_mongodb_

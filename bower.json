@@ -1,0 +1,28 @@
+{
+  "name": "TravelRepublicTest",
+  "version": "0.1.0",
+  "authors": [
+    "Ivan Jukic <ivan.jukic14@gmail.com>"
+  ],
+  "description": "Test app for TravelRepublic",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-bootstrap": "~0.14.1",
+    "fontawesome": "~4.4.0",
+    "requirejs": "~2.1.20",
+    "bootstrap": "~3.3.5",
+    "angular-route": "~1.4.7",
+    "angular-sanitize": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "angular-touch": "~1.4.7",
+    "angular-scroll": "~0.7.3"
+  }
+}

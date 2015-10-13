@@ -1,0 +1,14 @@
+static/vendor
+node_modules
+.DS_Store
+.html
+.idea/
+config.js
+v8.log
+npm-debug.log
+build
+obj
+*.conf
+*.conf~
+.gitignore~
+readme.txt

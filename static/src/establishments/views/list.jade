@@ -1,0 +1,69 @@
+div(ng-controller="EstablishmentsListController")
+    section(ng-controller='CarouselController')
+        div(class="carousel-wrapper")
+            uib-carousel(interval='myInterval', no-wrap='noWrapSlides')
+                uib-slide(ng-repeat='slide in slides', active='slide.active')
+                    div(class="carousel-image" style="background-image:url('{{slide.image}}')")
+            div(class="carousel-content")
+                div(class="container")
+                    h1(class="mt-50 mb-25 travel-header lobster-text") Travel
+
+    section(class="results-count" id="scroll-to-element")
+        div(class="container pt-15 pb-15")
+            |{{totalResults}}
+            span(class="desc")
+                | &nbsp;Results found
+
+    section(class="container")
+        div(class="results-div")
+            div(class="est-div" ng-repeat="est in establishments")
+                div(class="row est-row mb-15")
+                    div(class="col-xs-3 est-image" style="background-image:url('{{est.ImageUrl}}')")
+                    div(class="col-xs-7 est-data")
+                        div(class="row")
+                            div(class="col-xs-2 est-stars-rating")
+                                div(class="est-stars")
+                                    div(class="est-stars-value pt-20")
+                                        |{{est.Stars}}&nbsp;
+                                        i(class="fa fa-star-o")
+                                    div(class="est-stars-desc")
+                                        small stars
+                                div(class="est-rating")
+                                    div(class="est-rating-value pt-20")
+                                        |{{est.UserRating}}&nbsp;
+                                        i(class="fa fa-thumbs-o-up")
+                                    div(class="est-rating-desc")
+                                        small {{est.UserRatingCount}} ratings
+                            div(class="col-xs-10")
+                                h3(class="est-title")
+                                    | {{est.Name}}
+                                p(class="est-location")
+                                    |  {{est.Location}}
+                                p(class="est-desc mt-15")
+                                    |Bacon ipsum dolor amet ham hock bresaola shoulder, ground round cow strip steak sausage.
+                                    |Ham hock doner leberkas alcatra hamburger, capicola kielbasa pig.
+                                ul(class="est-icons")
+                                    li(class="fa fa-coffee")
+                                    li(class="fa fa-wifi")
+                                    li(class="fa fa-bus")
+                                    li(class="fa fa-cutlery")
+                                a(ng-href="#" class="est-map")
+                                    i(class="fa fa-map-marker")
+                                    span(class="")
+                                        |&nbsp;View on map
+                    div(class="col-xs-2 est-price")
+                        div(class="est-price-value")
+                            |&#163;{{est.MinCost | number:0}}
+                            span
+                                |min price
+                        div(class="est-more-details")
+                            a(class="btn btn-success" href="#" role="button")
+                                | More details
+
+        div(class="est-pagination" ng-show="!dataLoading")
+            uib-pagination(total-items="totalResults" items-per-page="itemsPerPage" ng-model="currentPage"
+            boundary-links="true" max-size="7" rotate="false" ng-change="pageChanged()")
+
+    footer(class="est-footer")
+        div(class="container")
+            h1(class="lobster-text") Travel 2015
