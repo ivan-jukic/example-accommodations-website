@@ -1,7 +1,7 @@
 #Accommodations App (MEAN example)
 *This is an example web app built on MEAN stack, for listing accommodations.*
 
-The back end of this app is built on top of https://github.com/ivan-jukic/jet-framework
+The back end of this app is built on top of https://github.com/ivan-jukic/jet-framework/. The front end of the app is built with angular, and it's using requirejs for dependency injection.
 
 A live example can be viewed on: http://ivanjukic.com/travel/. It's running on an AWS instance.
 
