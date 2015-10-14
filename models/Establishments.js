@@ -1,5 +1,4 @@
 module.exports = Establishments = function(Jet) {
-
     var q = require('q');
 
     /*
