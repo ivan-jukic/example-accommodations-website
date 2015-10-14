@@ -40,7 +40,13 @@
                             $scope.dataLoading = false;
                             $scope.totalResults = response.data.total;
                             $scope.totalPages = response.data.totalPages;
-                            $scope.establishments = response.data.items;
+                            if (1 == $scope.currentPage) {
+                                $scope.establishments = response.data.items;
+                            } else {
+                                for (var i in response.data.items) {
+                                    $scope.establishments.push(response.data.items[i]);
+                                }
+                            }
                         },
                         function(response) {
                             /// TODO error handling
@@ -48,6 +54,12 @@
                         }
                     )
                 }
+
+
+                $scope.loadNextPage = function() {
+                    $scope.currentPage++;
+                    __loadEstablishments();
+                };
 
 
                 $scope.onFiltersOrSortUpdate = function() {

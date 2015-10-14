@@ -113,9 +113,11 @@ div(ng-controller="EstablishmentsListController")
                                 | More details
 
         div(class="est-pagination" ng-show="totalPages > 1")
-            uib-pagination(total-items="totalResults" items-per-page="itemsPerPage" ng-model="currentPage"
-            boundary-links="true" max-size="7" rotate="false" ng-change="pageChanged()")
+            //uib-pagination(total-items="totalResults" items-per-page="itemsPerPage" ng-model="currentPage"
+            //boundary-links="true" max-size="7" rotate="false" ng-change="pageChanged()")
+            button(type="button" class="btn btn-success btn-lg mt-20" ng-click="loadNextPage()")
+                |Load More ({{currentPage}}/{{totalPages}})
 
-    footer(class="est-footer")
+    footer(class="est-footer mt-50")
         div(class="container")
             h1(class="lobster-text") Travel 2015
