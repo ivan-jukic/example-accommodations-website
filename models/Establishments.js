@@ -3,7 +3,7 @@ module.exports = Establishments = function(Jet) {
     var sortMap = {
         stars: 'Stars',
         distance: 'Distance',
-        cost: 'minCost',
+        cost: 'MinCost',
         rating: 'UserRating'
     };
 
@@ -45,6 +45,30 @@ module.exports = Establishments = function(Jet) {
 
 
     /**
+     * Function used to create where part of the mongo query.
+     * @param filters
+     * @returns {*}
+     * @private
+     */
+    function __getWhereClause(filters) {
+        var where = {};
+        if (filters.priceRange) {
+            where.MinCost = {$gte: filters.priceRange[0], $lte: filters.priceRange[1]};
+        }
+        if (filters.ratingRange) {
+            where.UserRating = {$gte: filters.ratingRange[0], $lte: filters.ratingRange[1]};
+        }
+        if (filters.stars) {
+            where.Stars = filters.stars;
+        }
+        if (filters.name) {
+            where['$text'] = {$search: filters.name};
+        }
+        return where;
+    }
+
+
+    /**
      * Load data from the Establishments collection, and filter it.
      * @param filters
      */
@@ -54,7 +78,9 @@ module.exports = Establishments = function(Jet) {
         var limit = parseInt(filters.limit) ? parseInt(filters.limit) : 10;
         var skip = parseInt(filters.page) ? (parseInt(filters.page) - 1) * limit : 0;
         var query = this.find();
+        var where = __getWhereClause(filters);
 
+        query.where(where);
         query.limit(limit);
         query.skip(skip);
 
@@ -62,6 +88,7 @@ module.exports = Establishments = function(Jet) {
             var sortObj = {};
             sortObj[sortMap[filters.sortBy.toLowerCase()]] = 'asc' === filters.sortDirection.toLowerCase() ? 1 : -1;
             query.sort(sortObj);
+            console.log(sortObj);
         }
 
         query.exec(function(err, data) {
@@ -84,8 +111,7 @@ module.exports = Establishments = function(Jet) {
     EstablishmentsSchema.statics.countData = function(filters) {
         filters = filters || {};
         var deferred = q.defer();
-        var where = {};
-
+        var where = __getWhereClause(filters);
         this.count(where, function(err, count) {
             err ? deferred.reject(err) : deferred.resolve(count);
         });

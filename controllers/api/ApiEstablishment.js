@@ -20,10 +20,25 @@ ApiEstablishment.prototype.getEstablishments = function() {
     var extend = require('util')._extend;
     var filters = extend(this.defaultFilters, query);
 
-    console.log(query);
-    console.log(filters);
+    if (filters.priceRange) {
+        filters.priceRange = filters.priceRange.split(',');
+        filters.priceRange.forEach(function(val, index, arr) {
+            arr[index] = parseInt(val);
+        });
+    }
 
-    Establishment.loadData(this.defaultFilters).then(
+    if (filters.ratingRange) {
+        filters.ratingRange = filters.ratingRange.split(',');
+        filters.ratingRange.forEach(function(val, index, arr) {
+            arr[index] = parseInt(val);
+        });
+    }
+
+    if (filters.stars) {
+        filters.stars = parseInt(filters.stars);
+    }
+
+    Establishment.loadData(filters).then(
         function(data) {
             items = [];
             for(var i in data) {
@@ -35,7 +50,7 @@ ApiEstablishment.prototype.getEstablishments = function() {
             self.handleError(err);
         });
 
-    Establishment.countData().then(
+    Establishment.countData(filters).then(
         function(countResult) {
             count = countResult;
             sendResponse();
@@ -45,7 +60,7 @@ ApiEstablishment.prototype.getEstablishments = function() {
         });
 
     function sendResponse() {
-        if (!count || !items) {
+        if (null == count || null == items) {
             return false;
         }
 
@@ -62,6 +77,11 @@ ApiEstablishment.prototype.getEstablishments = function() {
 };
 
 ApiEstablishment.prototype.handleError = function(err) {
-    this.setStatusCode(400);
-    this.json(err);
+    try {
+        this.setStatusCode(400);
+        this.json(err);
+    } catch(e) {
+        console.log(e);
+        this.finish();
+    }
 };

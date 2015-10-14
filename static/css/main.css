@@ -97,6 +97,14 @@ html, body {
     bottom: 10px;
 }
 
+.list-container {
+    min-height: 400px;
+}
+
+.list-no-results > p {
+    font-size: 16px;
+}
+
 .filter-stars span {
     outline: none;
 }
@@ -147,7 +155,6 @@ html, body {
 }
 
 /* Establishments */
-
 .est-row {
     position: relative;
     height: 200px;

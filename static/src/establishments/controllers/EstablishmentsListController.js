@@ -10,16 +10,16 @@
                 $scope.itemsPerPage = 5;
                 $scope.totalResults = 0;
                 $scope.priceSlider = {
-                    min: 50,
-                    max: 4500,
-                    ceil: 5000,
-                    floor: 0
+                    min: 0,
+                    max: 7000,
+                    floor: 0,
+                    ceil: 7000
                 };
                 $scope.ratingSlider = {
                     min: 1,
                     max: 10,
-                    ceil: 10,
-                    floor: 1
+                    floor: 1,
+                    ceil: 10
                 };
                 $scope.filterStars = null;
                 $scope.filterName = null;
@@ -56,6 +56,12 @@
                 };
 
 
+                $scope.onNameSearch = function() {
+                    resetFilters(true);
+                    $scope.onFiltersOrSortUpdate();
+                };
+
+
                 $scope.pageChanged = function() {
                     __loadEstablishments($scope.currentPage);
                     var someElement = angular.element(document.getElementById('scroll-to-element'));
@@ -63,8 +69,10 @@
                 };
 
 
-                $scope.sortOnAttribute = function(attribute) {
-                    $scope.currentPage = 1;
+                $scope.onResetFilters = function($event) {
+                    $event.preventDefault();
+                    resetFilters();
+                    $scope.onFiltersOrSortUpdate();
                 };
 
 
@@ -92,7 +100,38 @@
                         $scope.sortDirection = null;
                     }
 
+                    if ($scope.priceSlider.min != $scope.priceSlider.floor || $scope.priceSlider.max != $scope.priceSlider.ceil) {
+                        filters.priceRange= $scope.priceSlider.min + ',' + $scope.priceSlider.max;
+                    }
+
+                    if ($scope.ratingSlider.min != $scope.ratingSlider.floor || $scope.ratingSlider.max != $scope.ratingSlider.ceil) {
+                        filters.ratingRange= $scope.ratingSlider.min + ',' + $scope.ratingSlider.max;
+                    }
+
+                    if($scope.filterStars) {
+                        filters.stars = $scope.filterStars;
+                    }
+
+                    if($scope.filterName) {
+                        filters.name = $scope.filterName;
+                    }
+
                     return filters;
+                }
+
+
+                function resetFilters(skipNameFilter) {
+                    $scope.priceSlider.min = $scope.priceSlider.floor;
+                    $scope.priceSlider.max = $scope.priceSlider.ceil;
+
+                    $scope.ratingSlider.min = $scope.ratingSlider.floor;
+                    $scope.ratingSlider.max = $scope.ratingSlider.ceil;
+
+                    $scope.filterStars = null;
+
+                    if (!skipNameFilter) {
+                        $scope.filterName = null;
+                    }
                 }
 
 
