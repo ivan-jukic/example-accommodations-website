@@ -23,6 +23,7 @@
     "angular-sanitize": "~1.4.7",
     "angular-animate": "~1.4.7",
     "angular-touch": "~1.4.7",
-    "angular-scroll": "~0.7.3"
+    "angular-scroll": "~0.7.3",
+    "angular-rangeslider": "~0.0.14"
   }
 }
