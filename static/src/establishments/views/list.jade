@@ -19,23 +19,21 @@ div(ng-controller="EstablishmentsListController")
                     div(class="row carousel-filters-main")
                         div(class="col-xs-3 filter-stars")
                             h4 Number of stars
-                            div
+                            div(class="filter-stars-input")
                                 uib-rating(ng-model="filterStars" max="5" on-leave="overStar = null"
                                 titles="['one','two','three', 'four', 'five']" aria-labelledby="default-rating")
                         div(class="col-xs-3 filter-userRating")
                             h4 User rating
                             div
-                                select(class="form-control" ng-model="filters.rating")
-                                    option(selected="selected" value="")
-                                        |Select rating
-                                    option(ng-repeat="rating in ratingValues" value="rating.value")
-                                        |{{rating.text}}
+                                rzslider(rz-slider-floor="ratingSlider.floor" rz-slider-ceil="ratingSlider.ceil"
+                                rz-slider-model="ratingSlider.min" rz-slider-high="ratingSlider.max" rz-slider-hide-limit-labels="true"
+                                rz-slider-show-ticks="true")
                         div(class="col-xs-3 filter-minCost")
                             h4 Cost range
                             div
-                                //div(range-slider min="rangePrices.min" max="rangePrices.max" model-min="rangePrices.min" model-max="rangePrices.max")
-                                input(type="text" class="form-control mb-10" placeholder="Enter min amount" ng-model="filters.minCost")
-                                input(type="text" class="form-control" placeholder="Enter max amount" ng-model="filters.maxCost")
+                                rzslider(rz-slider-floor="priceSlider.floor" rz-slider-ceil="priceSlider.ceil"
+                                rz-slider-model="priceSlider.min" rz-slider-high="priceSlider.max" rz-slider-hide-limit-labels="true")
+
                         div(class="col-xs-3 filter-update")
                             h4 Update results
                             button(type="button" class="btn btn-info btn-lg") Update filters
@@ -46,26 +44,21 @@ div(ng-controller="EstablishmentsListController")
         div(class="container pt-15 pb-15")
             |{{totalResults}}
             span(class="desc")
-                | &nbsp;Results found, page&nbsp;
+                | &nbsp;Results, page&nbsp;
             |{{currentPage}}
             div(class="sort-inputs pull-right")
                 form(class="form-inline")
-                    select(class="form-control mr-10" ng-model="sortBy.distance")
-                        option(selected="selected" value="") Sort by distance
-                        option(value="distance_asc") Nearest
-                        option(value="distance_desc") Farthest
-                    select(class="form-control mr-10" ng-model="sortBy.stars")
-                        option(selected="selected" value="") Sort by stars
-                        option(value="stars_asc") More stars
-                        option(value="stars_desc") Less stars
-                    select(class="form-control mr-10" ng-model="sortBy.cost")
-                        option(selected="selected" value="") Sort by cost
-                        option(value="minCost_asc") Lower cost
-                        option(value="minCost_desc") Higher cost
-                    select(class="form-control mr-10" ng-model="sortBy.rating")
-                        option(selected="selected" value="") Sort by rating
-                        option(value="rating_asc") Better
-                        option(value="rating_desc") Higher cost
+                    select(class="form-control mr-10" ng-model="sortBy" ng-change="onFiltersOrSortUpdate()")
+                        option(selected="selected" value="") Sort by...
+                        option(value="distance") Distance
+                        option(value="stars") Stars
+                        option(value="minCost") Cost
+                        option(value="rating") Rating
+                    div(class="sorting-arrows")
+                        a(href="#" class="sort-arrow" ng-class="{'selected-sort-arrow': sortDirection == 'asc'}" ng-click="sortOnDirection('asc', $event)")
+                            i(class="fa fa-arrow-up")
+                        a(href="#" class="sort-arrow" ng-class="{'selected-sort-arrow': sortDirection == 'desc'}" ng-click="sortOnDirection('desc', $event)")
+                            i(class="fa fa-arrow-down")
 
     section(class="container")
         div(class="results-div")
@@ -91,7 +84,7 @@ div(ng-controller="EstablishmentsListController")
                                 h3(class="est-title")
                                     | {{est.Name}}
                                 p(class="est-location")
-                                    |  {{est.Location}}
+                                    |  {{est.Location}} ({{est.Distance | number:0}} km)
                                 p(class="est-desc mt-15")
                                     |Bacon ipsum dolor amet ham hock bresaola shoulder, ground round cow strip steak sausage.
                                     |Ham hock doner leberkas alcatra hamburger, capicola kielbasa pig.

@@ -9,28 +9,22 @@
                 $scope.totalPages = 0;
                 $scope.itemsPerPage = 5;
                 $scope.totalResults = 0;
-                $scope.rangePrices = {
-                    min: 0,
-                    max: 5000
+                $scope.priceSlider = {
+                    min: 50,
+                    max: 4500,
+                    ceil: 5000,
+                    floor: 0
                 };
-                $scope.filters = {
-                    stars: null,
-                    rating: null,
-                    minCost: null,
-                    maxCost: null,
-                    name: null
+                $scope.ratingSlider = {
+                    min: 1,
+                    max: 10,
+                    ceil: 10,
+                    floor: 1
                 };
-                $scope.ratingValues = getOptionsRange(1, 10);
-                $scope.sortBy = {};
-                $scope.sortingValues = [
-                    {value: 'distance_asc', text: 'Nearest first'},
-                    {value: 'distance_desc', text: 'Farthest first'},
-                    {value: 'minCost_asc', text: 'Cheaper first'},
-                    {value: 'stars_asc', text: 'Expensive first'},
-                    {value: 'stars_desc', text: 'Expensive first'},
-                    {value: 'rating_asc', text: 'Lowest rating first'},
-                    {value: 'rating_desc', text: 'Best rating first'}
-                ];
+                $scope.filterStars = null;
+                $scope.filterName = null;
+                $scope.sortBy = null;
+                $scope.sortDirection = null;
 
 
                 /// Load first page
@@ -38,11 +32,10 @@
 
                 /**
                  * Closure to load next page of establishments
-                 * @param page
                  * @private
                  */
-                function __loadEstablishments(page) {
-                    apiEstablishments.loadEstablishments({page: page}).then(
+                function __loadEstablishments() {
+                    apiEstablishments.loadEstablishments(getFiltersAndSort()).then(
                         function(response) {
                             $scope.dataLoading = false;
                             $scope.totalResults = response.data.total;
@@ -57,6 +50,12 @@
                 }
 
 
+                $scope.onFiltersOrSortUpdate = function() {
+                    $scope.currentPage = 1;
+                    __loadEstablishments();
+                };
+
+
                 $scope.pageChanged = function() {
                     __loadEstablishments($scope.currentPage);
                     var someElement = angular.element(document.getElementById('scroll-to-element'));
@@ -64,19 +63,38 @@
                 };
 
 
-                /**
-                 * Creates list of numbers for select element
-                 * @param start
-                 * @param end
-                 * @returns {Array}
-                 */
-                function getOptionsRange(start, end) {
-                    var result = [];
-                    for (var i = start; i <= end; i++) {
-                        result.push({value: i, text: i});
+                $scope.sortOnAttribute = function(attribute) {
+                    $scope.currentPage = 1;
+                };
+
+
+                $scope.sortOnDirection = function(direction, $event) {
+                    $event.preventDefault();
+                    if ($scope.sortBy) {
+                        $scope.sortDirection = direction;
+                        $scope.currentPage = 1;
+                        __loadEstablishments();
                     }
-                    return result;
+                };
+
+
+                function getFiltersAndSort() {
+                    var filters = {};
+
+                    if ($scope.currentPage > 1) {
+                        filters.page = $scope.currentPage;
+                    }
+
+                    if ($scope.sortBy) {
+                        filters.sortBy = $scope.sortBy;
+                        filters.sortDirection = $scope.sortDirection = $scope.sortDirection || 'asc';
+                    } else {
+                        $scope.sortDirection = null;
+                    }
+
+                    return filters;
                 }
+
 
                 /*******************************************************************************************************
                  * Variables necessary for carousel

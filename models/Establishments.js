@@ -1,5 +1,11 @@
 module.exports = Establishments = function(Jet) {
     var q = require('q');
+    var sortMap = {
+        stars: 'Stars',
+        distance: 'Distance',
+        cost: 'minCost',
+        rating: 'UserRating'
+    };
 
     /*
     Filter: Name Stars TrpRating(??) UserRating MinCost
@@ -51,6 +57,13 @@ module.exports = Establishments = function(Jet) {
 
         query.limit(limit);
         query.skip(skip);
+
+        if (filters.sortBy) {
+            var sortObj = {};
+            sortObj[sortMap[filters.sortBy.toLowerCase()]] = 'asc' === filters.sortDirection.toLowerCase() ? 1 : -1;
+            query.sort(sortObj);
+        }
+
         query.exec(function(err, data) {
             if (err) {
                 deferred.reject(err);

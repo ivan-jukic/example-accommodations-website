@@ -10,12 +10,12 @@
         'ngAnimate',
         'ngTouch',
         'duScroll',
-        'ngRangeSlider'
+        'rzModule'
     ], function(
         EstablishmentsListController,
         apiEstablishments) {
         var appName = 'establishments';
-        var app = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'duScroll', 'ui-rangeSlider']);
+        var app = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'duScroll', 'rzModule']);
         app.controller('EstablishmentsListController', EstablishmentsListController);
         app.service('apiEstablishments', apiEstablishments);
 

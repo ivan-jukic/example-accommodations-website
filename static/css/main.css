@@ -96,12 +96,15 @@ html, body {
     right: 0;
     bottom: 10px;
 }
-.filter-stars > div {
-    font-size: 28px;
-}
 
 .filter-stars span {
     outline: none;
+}
+
+.filter-stars .filter-stars-input {
+    color: #0db9f0;
+    margin-top: 25px;
+    font-size: 30px;
 }
 
 .filter-update .btn {
@@ -120,6 +123,27 @@ html, body {
 .results-count .badge {
     background-color: #fff;
     color: #333;
+}
+
+
+.sorting-arrows {
+    display: inline-block;
+}
+
+.sorting-arrows > .sort-arrow {
+    color: #aaa;
+}
+
+.sorting-arrows > .sort-arrow.selected-sort-arrow {
+    color: #0db9f0;
+}
+
+.sorting-arrows > .sort-arrow:first-child {
+    margin-right: 7px;
+}
+
+.sorting-arrows > .sort-arrow:hover {
+    color: #0db9f0;
 }
 
 /* Establishments */
