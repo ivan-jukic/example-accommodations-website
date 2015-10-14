@@ -9,12 +9,12 @@ A live example can be viewed on: http://ivanjukic.com/travel/. It's running on a
 
 * Make filters work
 * Make ordering work
-* Optimize for device (responsiveness)
+* Optimize for different devices (responsiveness)
 
 ## Some additional ideas:
 
 * "Load more" button instead of pagination on the accommodations list
-* Add page for each accommodation
+* Add details page for each accommodation
 * Add range slide for mininum maximum cost filter
 * Add range slide for user rating filter
 * Animate transitions between different accommodation list pages
