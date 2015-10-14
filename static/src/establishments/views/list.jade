@@ -1,18 +1,71 @@
 div(ng-controller="EstablishmentsListController")
-    section(ng-controller='CarouselController')
-        div(class="carousel-wrapper")
-            uib-carousel(interval='myInterval', no-wrap='noWrapSlides')
-                uib-slide(ng-repeat='slide in slides', active='slide.active')
-                    div(class="carousel-image" style="background-image:url('{{slide.image}}')")
-            div(class="carousel-content")
-                div(class="container")
+    section(class="carousel-wrapper")
+        uib-carousel(interval='myInterval', no-wrap='noWrapSlides')
+            uib-slide(ng-repeat='slide in slides', active='slide.active')
+                div(class="carousel-image" style="background-image:url('{{slide.image}}')")
+        div(class="carousel-content")
+            div(class="container")
+
+                section(class="carousel-title")
                     h1(class="mt-50 mb-25 travel-header lobster-text") Travel
+                    form(class="form-inline pull-right")
+                        div(class="input-group")
+                            input(type="text" class="form-control mr-10 input-lg" placeholder="Looking for...")
+                            span(class="input-group-btn")
+                                button(type="button" class="btn btn-success btn-lg")
+                                    i(class="fa fa-search")
+
+                section(class="carousel-filters")
+                    div(class="row carousel-filters-main")
+                        div(class="col-xs-3 filter-stars")
+                            h4 Number of stars
+                            div
+                                uib-rating(ng-model="filterStars" max="5" on-leave="overStar = null"
+                                titles="['one','two','three', 'four', 'five']" aria-labelledby="default-rating")
+                        div(class="col-xs-3 filter-userRating")
+                            h4 User rating
+                            div
+                                select(class="form-control" ng-model="filters.rating")
+                                    option(selected="selected" value="")
+                                        |Select rating
+                                    option(ng-repeat="rating in ratingValues" value="rating.value")
+                                        |{{rating.text}}
+                        div(class="col-xs-3 filter-minCost")
+                            h4 Cost range
+                            div
+                                //div(range-slider min="rangePrices.min" max="rangePrices.max" model-min="rangePrices.min" model-max="rangePrices.max")
+                                input(type="text" class="form-control mb-10" placeholder="Enter min amount" ng-model="filters.minCost")
+                                input(type="text" class="form-control" placeholder="Enter max amount" ng-model="filters.maxCost")
+                        div(class="col-xs-3 filter-update")
+                            h4 Update results
+                            button(type="button" class="btn btn-info btn-lg") Update filters
+                            div
+                                a(href="#") Reset filters
 
     section(class="results-count" id="scroll-to-element")
         div(class="container pt-15 pb-15")
             |{{totalResults}}
             span(class="desc")
-                | &nbsp;Results found
+                | &nbsp;Results found, page&nbsp;
+            |{{currentPage}}
+            div(class="sort-inputs pull-right")
+                form(class="form-inline")
+                    select(class="form-control mr-10" ng-model="sortBy.distance")
+                        option(selected="selected" value="") Sort by distance
+                        option(value="distance_asc") Nearest
+                        option(value="distance_desc") Farthest
+                    select(class="form-control mr-10" ng-model="sortBy.stars")
+                        option(selected="selected" value="") Sort by stars
+                        option(value="stars_asc") More stars
+                        option(value="stars_desc") Less stars
+                    select(class="form-control mr-10" ng-model="sortBy.cost")
+                        option(selected="selected" value="") Sort by cost
+                        option(value="minCost_asc") Lower cost
+                        option(value="minCost_desc") Higher cost
+                    select(class="form-control mr-10" ng-model="sortBy.rating")
+                        option(selected="selected" value="") Sort by rating
+                        option(value="rating_asc") Better
+                        option(value="rating_desc") Higher cost
 
     section(class="container")
         div(class="results-div")

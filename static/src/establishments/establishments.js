@@ -2,7 +2,6 @@
 (function() {
     define([
         'src/establishments/controllers/EstablishmentsListController',
-        'src/establishments/controllers/CarouselController',
         'src/establishments/services/apiEstablishments',
         'ngRoute',
         'ngSanitize',
@@ -10,15 +9,14 @@
         'ngBootstrapTpls',
         'ngAnimate',
         'ngTouch',
-        'duScroll'
+        'duScroll',
+        'ngRangeSlider'
     ], function(
         EstablishmentsListController,
-        CarouselController,
         apiEstablishments) {
         var appName = 'establishments';
-        var app = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'duScroll']);
+        var app = angular.module(appName, ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'duScroll', 'ui-rangeSlider']);
         app.controller('EstablishmentsListController', EstablishmentsListController);
-        app.controller('CarouselController', CarouselController);
         app.service('apiEstablishments', apiEstablishments);
 
         app.config(function($routeProvider) {
