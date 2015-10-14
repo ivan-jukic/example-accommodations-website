@@ -1,1 +1,1 @@
-mongod.exe --dbpath E:/web_projects/_mongodb_
+This is an example web app built on MEAN stack, for listing accommodations.
