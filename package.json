@@ -1,5 +1,5 @@
 {
-  "name": "travel-republic-test",
+  "name": "example-accommodations-website",
   "description": "",
   "version": "0.1.0",
   "repository": {
@@ -7,7 +7,7 @@
     "url": ""
   },
   "keywords": [
-    "TravelRepublic"
+    "example", "accommodations", "mean"
   ],
   "author": {
     "name": "Ivan Jukic",
