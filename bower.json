@@ -1,10 +1,10 @@
 {
-  "name": "TravelRepublicTest",
+  "name": "Establishments",
   "version": "0.1.0",
   "authors": [
     "Ivan Jukic <ivan.jukic14@gmail.com>"
   ],
-  "description": "Test app for TravelRepublic",
+  "description": "MEAN accommodations app",
   "license": "MIT",
   "ignore": [
     "**/.*",
