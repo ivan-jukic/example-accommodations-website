@@ -22,7 +22,7 @@
         app.config(function($routeProvider) {
             $routeProvider
                 .when('/', {
-                    templateUrl: '/travel/ng-template/establishments/list'
+                    templateUrl: '/ng-template/establishments/list'
                 })
                 .otherwise({redirectTo: '/'});
         });
