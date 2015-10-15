@@ -12,7 +12,7 @@
             ngAnimate: 'vendor/angular-animate/angular-animate.min',
             ngTouch: 'vendor/angular-touch/angular-touch.min',
             duScroll: 'vendor/angular-scroll/angular-scroll.min',
-            ngRangeSlider: 'vendor/angular-rangeslider/angular.rangeSlider'
+            rzModule: 'vendor/angularjs-slider/dist/rzslider.min'
         },
         shim: {
             angular: {exports: 'angular'},
@@ -23,7 +23,7 @@
             ngAnimate: {deps: ['angular']},
             ngTouch: {deps: ['angular']},
             duScroll : {deps: ['angular']},
-            ngRangeSlider : {deps: ['angular']}
+            rzModule : {deps: ['angular']}
         },
         deps: ['src/index']
     });

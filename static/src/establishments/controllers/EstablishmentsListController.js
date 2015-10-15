@@ -9,28 +9,22 @@
                 $scope.totalPages = 0;
                 $scope.itemsPerPage = 5;
                 $scope.totalResults = 0;
-                $scope.rangePrices = {
+                $scope.priceSlider = {
                     min: 0,
-                    max: 5000
+                    max: 7000,
+                    floor: 0,
+                    ceil: 7000
                 };
-                $scope.filters = {
-                    stars: null,
-                    rating: null,
-                    minCost: null,
-                    maxCost: null,
-                    name: null
+                $scope.ratingSlider = {
+                    min: 1,
+                    max: 10,
+                    floor: 1,
+                    ceil: 10
                 };
-                $scope.ratingValues = getOptionsRange(1, 10);
-                $scope.sortBy = {};
-                $scope.sortingValues = [
-                    {value: 'distance_asc', text: 'Nearest first'},
-                    {value: 'distance_desc', text: 'Farthest first'},
-                    {value: 'minCost_asc', text: 'Cheaper first'},
-                    {value: 'stars_asc', text: 'Expensive first'},
-                    {value: 'stars_desc', text: 'Expensive first'},
-                    {value: 'rating_asc', text: 'Lowest rating first'},
-                    {value: 'rating_desc', text: 'Best rating first'}
-                ];
+                $scope.filterStars = null;
+                $scope.filterName = null;
+                $scope.sortBy = null;
+                $scope.sortDirection = null;
 
 
                 /// Load first page
@@ -38,16 +32,21 @@
 
                 /**
                  * Closure to load next page of establishments
-                 * @param page
                  * @private
                  */
-                function __loadEstablishments(page) {
-                    apiEstablishments.loadEstablishments({page: page}).then(
+                function __loadEstablishments() {
+                    apiEstablishments.loadEstablishments(getFiltersAndSort()).then(
                         function(response) {
                             $scope.dataLoading = false;
                             $scope.totalResults = response.data.total;
                             $scope.totalPages = response.data.totalPages;
-                            $scope.establishments = response.data.items;
+                            if (1 == $scope.currentPage) {
+                                $scope.establishments = response.data.items;
+                            } else {
+                                for (var i in response.data.items) {
+                                    $scope.establishments.push(response.data.items[i]);
+                                }
+                            }
                         },
                         function(response) {
                             /// TODO error handling
@@ -57,6 +56,24 @@
                 }
 
 
+                $scope.loadNextPage = function() {
+                    $scope.currentPage++;
+                    __loadEstablishments();
+                };
+
+
+                $scope.onFiltersOrSortUpdate = function() {
+                    $scope.currentPage = 1;
+                    __loadEstablishments();
+                };
+
+
+                $scope.onNameSearch = function() {
+                    resetFilters(true);
+                    $scope.onFiltersOrSortUpdate();
+                };
+
+
                 $scope.pageChanged = function() {
                     __loadEstablishments($scope.currentPage);
                     var someElement = angular.element(document.getElementById('scroll-to-element'));
@@ -64,19 +81,71 @@
                 };
 
 
-                /**
-                 * Creates list of numbers for select element
-                 * @param start
-                 * @param end
-                 * @returns {Array}
-                 */
-                function getOptionsRange(start, end) {
-                    var result = [];
-                    for (var i = start; i <= end; i++) {
-                        result.push({value: i, text: i});
+                $scope.onResetFilters = function($event) {
+                    $event.preventDefault();
+                    resetFilters();
+                    $scope.onFiltersOrSortUpdate();
+                };
+
+
+                $scope.sortOnDirection = function(direction, $event) {
+                    $event.preventDefault();
+                    if ($scope.sortBy) {
+                        $scope.sortDirection = direction;
+                        $scope.currentPage = 1;
+                        __loadEstablishments();
                     }
-                    return result;
+                };
+
+
+                function getFiltersAndSort() {
+                    var filters = {};
+
+                    if ($scope.currentPage > 1) {
+                        filters.page = $scope.currentPage;
+                    }
+
+                    if ($scope.sortBy) {
+                        filters.sortBy = $scope.sortBy;
+                        filters.sortDirection = $scope.sortDirection = $scope.sortDirection || 'asc';
+                    } else {
+                        $scope.sortDirection = null;
+                    }
+
+                    if ($scope.priceSlider.min != $scope.priceSlider.floor || $scope.priceSlider.max != $scope.priceSlider.ceil) {
+                        filters.priceRange= $scope.priceSlider.min + ',' + $scope.priceSlider.max;
+                    }
+
+                    if ($scope.ratingSlider.min != $scope.ratingSlider.floor || $scope.ratingSlider.max != $scope.ratingSlider.ceil) {
+                        filters.ratingRange= $scope.ratingSlider.min + ',' + $scope.ratingSlider.max;
+                    }
+
+                    if($scope.filterStars) {
+                        filters.stars = $scope.filterStars;
+                    }
+
+                    if($scope.filterName) {
+                        filters.name = $scope.filterName;
+                    }
+
+                    return filters;
                 }
+
+
+                function resetFilters(skipNameFilter) {
+                    $scope.priceSlider.min = $scope.priceSlider.floor;
+                    $scope.priceSlider.max = $scope.priceSlider.ceil;
+
+                    $scope.ratingSlider.min = $scope.ratingSlider.floor;
+                    $scope.ratingSlider.max = $scope.ratingSlider.ceil;
+
+                    $scope.filterStars = null;
+
+                    if (!skipNameFilter) {
+                        $scope.filterName = null;
+                    }
+                }
+
 
                 /*******************************************************************************************************
                  * Variables necessary for carousel

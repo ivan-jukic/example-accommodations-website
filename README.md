@@ -5,18 +5,9 @@ The back end of this app is built on top of https://github.com/ivan-jukic/jet-fr
 
 A live example can be viewed on: http://ivanjukic.com/travel/. It's running on an AWS instance.
 
-## To do's:
-
-* Make filters work
-* Make ordering work
-* Optimize for different devices (responsiveness)
-
 ## Some additional ideas:
 
-* "Load more" button instead of pagination on the accommodations list
 * Add details page for each accommodation
-* Add range slide for mininum maximum cost filter
-* Add range slide for user rating filter
 * Animate transitions between different accommodation list pages
 * Add tests (BDD Jasmine for both BE and FE)
 * Automated deployment (eg. using Grunt/Gulp, minification and concatenation of scripts)
