@@ -14,6 +14,7 @@ A live example can be viewed on: http://ivanjukic.com/travel/. It's running on a
 
 ## Installing
 
+* make sure you have Node.js and MongoDB installed
 * clone the repository
 ```
 git clone https://github.com/ivan-jukic/example-accommodations-website.git
@@ -30,10 +31,13 @@ npm install
 ```
 bower install
 ```
-* make sure you have MongoDB installed
-* navigate to the app root and run the app
+* navigate to the app root and run the app (replace &lt;port&gt; with a number)
 ```
 node index <port>
+```
+* After the app has started, open your browser and go to (use the same port number)
+```
+http://localhost:<port>
 ```
 
 ## Upstart script (Linux)
