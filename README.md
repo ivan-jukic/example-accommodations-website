@@ -5,10 +5,6 @@ The back end of this app is built on top of https://github.com/ivan-jukic/jet-fr
 
 A live example can be viewed on: http://ivanjukic.com/travel/. It's running on an AWS instance.
 
-## To do's:
-
-* Optimize for different devices (responsiveness)
-
 ## Some additional ideas:
 
 * Add details page for each accommodation
