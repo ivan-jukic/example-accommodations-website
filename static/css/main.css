@@ -404,19 +404,19 @@ html, body {
         padding-top: 0;
         color: #6ebdf6;
         text-align: center;
-        font-size: 40px;
+        font-size: 38px;
     }
     .mobile-est-info-block .est-stars-desc,
     .mobile-est-info-block .est-rating-desc {
         text-align: center;
-        font-size: 30px;
+        font-size: 28px;
+        line-height: 32px;
         color: #777;
-        margin-top: -10px;
     }
     .mobile-est-info-block .est-price-value {
         margin-top: 0;
         text-align: center;
-        font-size: 40px;
+        font-size: 38px;
     }
 }
 
